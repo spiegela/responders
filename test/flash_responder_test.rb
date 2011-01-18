@@ -8,7 +8,7 @@ class AddressesController < ApplicationController
   before_filter :set_resource
   self.responder = FlashResponder
 
-  respond_to :js, :only => :create
+  respond_to :js, :json, :only => :create
 
   def action
     options = params.slice(:flash, :flash_now)
@@ -102,6 +102,12 @@ class FlashResponderTest < ActionController::TestCase
 
   def test_sets_now_flash_message_on_javascript_requests
     post :create, :format => :js
+    assert_equal "Resource created with success", flash[:success]
+    assert_flash_now :success
+  end
+
+  def test_sets_now_flash_message_on_json_requests
+    post :create, :format => :json
     assert_equal "Resource created with success", flash[:success]
     assert_flash_now :success
   end

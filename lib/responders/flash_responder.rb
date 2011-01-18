@@ -97,6 +97,11 @@ module Responders
       set_flash_message! if set_flash_message?
       defined?(super) ? super : to_format
     end
+    
+    def to_json
+      set_flash_message! if set_flash_message?
+      defined?(super) ? super : to_format
+    end
 
   protected
 
@@ -124,7 +129,7 @@ module Responders
     end
 
     def set_flash_now?
-      (@flash_now == true) || (has_errors? ? @flash_now == :on_failure : @flash_now == :on_success) || (format == :js)
+      (@flash_now == true) || (has_errors? ? @flash_now == :on_failure : @flash_now == :on_success) || (format == :js) || (format == :json)
     end
 
     def set_flash_message? #:nodoc:
